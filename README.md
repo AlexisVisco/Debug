@@ -24,7 +24,8 @@ Methods (todo):
 <a name="NewDebug" />
 -- NewDebug(name string) *Debug --
 
-__Description__:
+
+__Description__:<br/>
 Create a debug structure without registering it. Cannot be accessible with [`Get`](#Get).
 Generate a random color from 31 to 37 and 91 to 97 as ainsi code.
 
@@ -35,11 +36,12 @@ debug := debug.NewDebug("woaw")
 <a name="Register" />
 -- Register(name string) (*Debug, Err) --
 
-__Description__:
+
+__Description__:<br/>
 Create a debug and registering it. Can be accessible with [`Get`](#Get).
 [`NewDebug`](#NewDebug) is used to create the structure.
 
-__Error__:
+__Error__:<br/>
 Return an error if name is already in the registery.
 
 ```go
@@ -52,10 +54,11 @@ if err {
 <a name="Get" />
 -- Get(name string) (*Debug, Err) --
 
-__Description__:
+
+__Description__:<br/>
 Get a debug structure from it name.
 
-__Error__:
+__Error__:<br/>
 Return an error if name is not in the registery.
 
 ```go
@@ -68,10 +71,11 @@ if err {
 <a name="Delete" />
 -- Delete(name string) Err --
 
-__Description__:
+
+__Description__:<br/>
 Delete a debug structure from the registery.
 
-__Error__:
+__Error__:<br/>
 Return an error if name is not in the registery.
 
 ```go
@@ -84,7 +88,8 @@ if err {
 <a name="Enable" />
 -- Enable() --
 
-__Description__:
+
+__Description__:<br/>
 Enable printing with debug.
 
 ```go
@@ -94,7 +99,8 @@ debug.Enable()
 <a name="Disable" />
 -- Disable() --
 
-__Description__:
+
+__Description__:<br/>
 Disable printing with debug.
 
 ```go
