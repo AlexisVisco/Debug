@@ -23,7 +23,7 @@ Methods:
 <a name="NewDebug"/>
 ### NewDebug(name string) *Debug
 
-*Description*:
+__Description__:
 Create a debug structure without registering it. Cannot be accessible with [`Get`](#Get).
 Generate a random color from 31 to 37 and 91 to 97 as ainsi code.
 
@@ -31,14 +31,16 @@ Generate a random color from 31 to 37 and 91 to 97 as ainsi code.
 debug := debug.NewDebug("woaw") 
 ```
 
-<a name="Register"/>
+<a name="Register" />
 ### Register(name string) (*Debug, Err)
 
-*Description*:
+__Description__:
+
 Create a debug and registering it. Can be accessible with [`Get`](#Get).
 [`NewDebug`](#NewDebug) is used to create the structure.
 
-*Error*:
+__Error__:
+
 Return an error if name is already in the registery.
 
 ```go
@@ -48,13 +50,15 @@ if err {
 }
 ```
 
-<a name="Get"/>
+<a name="Get" />
 ### Get(name string) (*Debug, Err)
 
-*Description*:
+__Description__:
+
 Get a debug structure from it name.
 
-*Error*:
+__Error__:
+
 Return an error if name is not in the registery.
 
 ```go
@@ -64,13 +68,15 @@ if err {
 }
 ```
 
-<a name="Delete"/>
+<a name="Delete" />
 ### Delete(name string) Err
 
-*Description*:
+__Description__:
+
 Delete a debug structure from the registery.
 
-*Error*:
+__Error__:
+
 Return an error if name is not in the registery.
 
 ```go
