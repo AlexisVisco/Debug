@@ -10,12 +10,12 @@ Works in go with any things that implement io.Writer.
 ## Documentation
 
 Functions:
-* [`NewDebug(name string) *Debug`](#NewDebug)
-* [`Register(name string) (*Debug, Err)`](#Register)
-* [`Get(name string) (*Debug, Err)`](#Get)
-* [`Delete(name string) Err`](#Delete)
-* [`Enable()`](#Enable)
-* [`Disable()`](#Disable)
+* [`NewDebug(name string) *Debug`](#NewDebug(name string) *Debug)
+* [`Register(name string) (*Debug, Err)`](#Register(name string) (*Debug, Err))
+* [`Get(name string) (*Debug, Err)`](#Get(name string) (*Debug, Err))
+* [`Delete(name string) Err`](#Delete(name string) Err)
+* [`Enable()`](#Enable())
+* [`Disable()`](#Disable())
 
 Methods:
 * [`(d *Debug) Print(message string)`](#Print)
