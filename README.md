@@ -10,19 +10,19 @@ Works in go with any things that implement io.Writer.
 ## Documentation
 
 Functions:
-* [`NewDebug(name string) *Debug`](#NewDebug(name string) *Debug)
-* [`Register(name string) (*Debug, Err)`](#Register(name string) (*Debug, Err))
-* [`Get(name string) (*Debug, Err)`](#Get(name string) (*Debug, Err))
-* [`Delete(name string) Err`](#Delete(name string) Err)
-* [`Enable()`](#Enable())
-* [`Disable()`](#Disable())
+* [`NewDebug(name string) *Debug`](#NewDebug)
+* [`Register(name string) (*Debug, Err)`](#Register)
+* [`Get(name string) (*Debug, Err)`](#Get)
+* [`Delete(name string) Err`](#Delete)
+* [`Enable()`](#Enable)
+* [`Disable()`](#Disable)
 
-Methods:
+Methods (todo):
 * [`(d *Debug) Print(message string)`](#Print)
 * [`(d *Debug) Sprint(message string)`](#Print)
 
-
-### NewDebug(name string) *Debug
+<a name="NewDebug" />
+-- NewDebug(name string) *Debug --
 
 __Description__:
 Create a debug structure without registering it. Cannot be accessible with [`Get`](#Get).
@@ -32,7 +32,8 @@ Generate a random color from 31 to 37 and 91 to 97 as ainsi code.
 debug := debug.NewDebug("woaw") 
 ```
 
-### Register(name string) (*Debug, Err)
+<a name="Register" />
+-- Register(name string) (*Debug, Err) --
 
 __Description__:
 Create a debug and registering it. Can be accessible with [`Get`](#Get).
@@ -48,7 +49,8 @@ if err {
 }
 ```
 
-### Get(name string) (*Debug, Err)
+<a name="Get" />
+-- Get(name string) (*Debug, Err) --
 
 __Description__:
 Get a debug structure from it name.
@@ -63,7 +65,8 @@ if err {
 }
 ```
 
-### Delete(name string) Err
+<a name="Delete" />
+-- Delete(name string) Err --
 
 __Description__:
 Delete a debug structure from the registery.
@@ -78,7 +81,8 @@ if err {
 }
 ```
 
-### Enable()
+<a name="Enable" />
+-- Enable() --
 
 __Description__:
 Enable printing with debug.
@@ -87,7 +91,8 @@ Enable printing with debug.
 debug.Enable()
 ```
 
-### Disable()
+<a name="Disable" />
+-- Disable() --
 
 __Description__:
 Disable printing with debug.
