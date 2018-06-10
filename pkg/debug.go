@@ -8,8 +8,6 @@ import (
 	"math/rand"
 )
 
-type Err *DebugError
-
 type Debug struct {
 	Color       string
 	LastCall    *time.Time
@@ -36,13 +34,13 @@ func Register(name string) (*Debug, Err) {
 		debugs[name] = deb
 		return deb, nil
 	}
-	return nil, DebugExist
+	return nil, Exist
 }
 
 func Get(name string) (*Debug, Err) {
 	val, err := debugs[name]
 	if err {
-		return nil, DebugNotFound
+		return nil, NotFound
 	}
 	return val, nil
 }
@@ -50,7 +48,7 @@ func Get(name string) (*Debug, Err) {
 func Delete(name string) Err {
 	_, err := debugs[name]
 	if err {
-		return DebugNotFound
+		return NotFound
 	}
 	delete(debugs, name)
 	return nil

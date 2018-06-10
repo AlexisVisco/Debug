@@ -11,9 +11,10 @@ type DebugError struct {
 }
 
 func (d DebugError) String() string {
-	return fmt.Sprintf("Error code %.4d, %s ", d.Code, d.Error)
+	return fmt.Sprintf("%.4d > %s ", d.Code, d.Error)
 }
 
+type Err *DebugError
 
-var DebugNotFound = &DebugError{errors.New("debug structure not found"), 1}
-var DebugExist = &DebugError{errors.New("debug structure already exist"), 2}
+var NotFound = &DebugError{errors.New("debug structure not found"), 1}
+var Exist = &DebugError{errors.New("debug structure already exist"), 2}
