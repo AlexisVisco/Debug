@@ -21,10 +21,11 @@ Methods (todo):
 * [`(d *Debug) Print(message string)`](#Print)
 * [`(d *Debug) Sprint(message string)`](#Print)
 
+## Methods
+
 <a name="NewDebug" />
 NewDebug(name string) *Debug
 
----
 
 __Description__:<br/>
 Create a debug structure without registering it. Cannot be accessible with [`Get`](#Get).
@@ -37,7 +38,6 @@ debug := debug.NewDebug("woaw")
 <a name="Register" />
 Register(name string) (*Debug, Err)
 
----
 
 __Description__:<br/>
 Create a debug and registering it. Can be accessible with [`Get`](#Get).
@@ -56,7 +56,6 @@ if err {
 <a name="Get" />
 Get(name string) (*Debug, Err)
 
----
 
 __Description__:<br/>
 Get a debug structure from it name.
@@ -74,7 +73,6 @@ if err {
 <a name="Delete" />
 Delete(name string) Err
 
----
 
 __Description__:<br/>
 Delete a debug structure from the registery.
@@ -92,7 +90,6 @@ if err {
 <a name="Enable" />
 Enable()
 
----
 
 __Description__:<br/>
 Enable printing with debug.
@@ -104,7 +101,6 @@ debug.Enable()
 <a name="Disable" />
 Disable()
 
----
 
 __Description__:<br/>
 Disable printing with debug.
