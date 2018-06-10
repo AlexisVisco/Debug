@@ -1,3 +1,4 @@
+
 # Debug
 A tiny golang debugging utility modelled after go core's debugging technique.
 Works in go with any things that implement io.Writer.
@@ -20,7 +21,7 @@ Methods:
 * [`(d *Debug) Print(message string)`](#Print)
 * [`(d *Debug) Sprint(message string)`](#Print)
 
-<a name="NewDebug"/>
+
 ### NewDebug(name string) *Debug
 
 __Description__:
@@ -31,16 +32,13 @@ Generate a random color from 31 to 37 and 91 to 97 as ainsi code.
 debug := debug.NewDebug("woaw") 
 ```
 
-<a name="Register" />
 ### Register(name string) (*Debug, Err)
 
 __Description__:
-
 Create a debug and registering it. Can be accessible with [`Get`](#Get).
 [`NewDebug`](#NewDebug) is used to create the structure.
 
 __Error__:
-
 Return an error if name is already in the registery.
 
 ```go
@@ -50,15 +48,12 @@ if err {
 }
 ```
 
-<a name="Get" />
 ### Get(name string) (*Debug, Err)
 
 __Description__:
-
 Get a debug structure from it name.
 
 __Error__:
-
 Return an error if name is not in the registery.
 
 ```go
@@ -68,15 +63,12 @@ if err {
 }
 ```
 
-<a name="Delete" />
 ### Delete(name string) Err
 
 __Description__:
-
 Delete a debug structure from the registery.
 
 __Error__:
-
 Return an error if name is not in the registery.
 
 ```go
@@ -84,4 +76,22 @@ err := debug.Delete("woaw")
 if err {
   fmt.Printf("name %s has not been created !", "woaw")
 }
+```
+
+### Enable()
+
+__Description__:
+Enable printing with debug.
+
+```go
+debug.Enable()
+```
+
+### Disable()
+
+__Description__:
+Disable printing with debug.
+
+```go
+debug.Disable()
 ```
