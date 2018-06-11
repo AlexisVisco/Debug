@@ -2,91 +2,58 @@ package debug
 
 import (
 	"time"
-	"os"
-	"io"
 	"fmt"
 	"math/rand"
 )
 
-type Debug struct {
-	Color       string
-	LastCall    *time.Time
-	Name        string
-	ShowLatency bool
-	Writer      io.Writer
-}
-
-var debugs = make(map[string]*Debug)
+var registry = make(map[string]*Debug)
 var enabled = true
 
-func NewDebug(name string) *Debug {
-	return &Debug{
-		randomColor(),
-		nil,
-		name,
-		false,
-		os.Stderr}
-}
-
+// Register create a debug and registering it. Can be accessible with Get.
+// NewDebug is used to create the structure.
+// Return an error if name is already in the registry.
 func Register(name string) (*Debug, Err) {
 	deb := NewDebug(name)
 	if _, err := Get(name); err == nil {
-		debugs[name] = deb
+		registry[name] = deb
 		return deb, nil
 	}
 	return nil, Exist
 }
 
+// Get a debug structure from it name.
+// Return an error if name is not in the registry.
 func Get(name string) (*Debug, Err) {
-	val, err := debugs[name]
+	val, err := registry[name]
 	if err {
 		return nil, NotFound
 	}
 	return val, nil
 }
 
+// Delete a debug structure from the registry.
+// Return an error if name is not in the registry.
 func Delete(name string) Err {
-	_, err := debugs[name]
+	_, err := registry[name]
 	if err {
 		return NotFound
 	}
-	delete(debugs, name)
+	delete(registry, name)
 	return nil
 }
 
-func (d *Debug) Print(message string) {
-	if enabled {
-		d.Writer.Write([]byte(fmt.Sprintf("%s%s\033[0m %s %s%s\033[0m\n", d.Color, d.Name, message, d.Color, d.since())))
-	}
-}
-
-func (d *Debug) Sprint(message string) string {
-	return fmt.Sprintf("%s%s\033[0m %s %s%s\033[0m\n", d.Color, d.Name, message, d.Color, d.since())
-}
-
+// Enable printing with debug.
 func Enable() {
 	enabled = true
 }
 
+// Disable printing with debug.
 func Disable() {
 	enabled = false
 }
 
-func (d *Debug) since() string {
-	var str string
-	if d.ShowLatency {
-		if d.LastCall == nil {
-			str = "0.00µs"
-		} else {
-			str = time.Since(*d.LastCall).String()
-		}
-		t := time.Now()
-		d.LastCall = &t
-		return str
-	}
-	return ""
-}
-
+// randomColor attribute a color for a debug.
+// ANSI code is between 31 and 37 or 91 and 97.
 func randomColor() string {
 	rand.Seed(time.Now().Unix())
 	base := 30

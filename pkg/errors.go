@@ -5,16 +5,19 @@ import (
 	"errors"
 )
 
-type DebugError struct {
+type ErrorDebug struct {
 	Error   error
 	Code    int
 }
 
-func (d DebugError) String() string {
+// String format the output of a ErrorDebug
+func (d ErrorDebug) String() string {
 	return fmt.Sprintf("%.4d > %s ", d.Code, d.Error)
 }
 
-type Err *DebugError
+type Err *ErrorDebug
 
-var NotFound = &DebugError{errors.New("debug structure not found"), 1}
-var Exist = &DebugError{errors.New("debug structure already exist"), 2}
+// NotFound is the error returned if a debug is not found in the registry.
+var NotFound = &ErrorDebug{errors.New("debug structure not found"), 1}
+// Exist is the error returned if a debug already exist in the registry.
+var Exist = &ErrorDebug{errors.New("debug structure already exist"), 2}

@@ -10,16 +10,18 @@ Works in go with any things that implement io.Writer.
 ## Documentation
 
 Functions:
-* [`NewDebug(name string) *Debug`](#NewDebug)
-* [`Register(name string) (*Debug, Err)`](#Register)
-* [`Get(name string) (*Debug, Err)`](#Get)
-* [`Delete(name string) Err`](#Delete)
-* [`Enable()`](#Enable)
-* [`Disable()`](#Disable)
+* [`NewDebug(name string) *Debug`](#newdebug)
+* [`Register(name string) (*Debug, Err)`](#register)
+* [`Get(name string) (*Debug, Err)`](#get)
+* [`Delete(name string) Err`](#delete)
+* [`Enable()`](#enable)
+* [`Disable()`](#disable)
 
 Methods:
-* [`(d *Debug) Print(message string)`](#Print)
-* [`(d *Debug) Sprint(message string)`](#Sprint)
+* [`(d *Debug) Log(message string)`](#print)
+* [`(d *Debug) Sprint(message string)`](#sprint)
+* [`(d *Debug) SetWriter(writer io.Writer, tty bool) *Debug`](#setwriter)
+* [`(d *Debug) SetFdWriter(file *os.File) *Debug`](#setfdwriter)
 
 ## Functions
 
@@ -44,7 +46,7 @@ Create a debug and registering it. Can be accessible with [`Get`](#Get).
 [`NewDebug`](#NewDebug) is used to create the structure.
 
 __Error__:<br/>
-Return an error if name is already in the registery.
+Return an error if name is already in the registry.
 
 ```go
 debug, err := debug.Create("woaw")
@@ -61,7 +63,7 @@ __Description__:<br/>
 Get a debug structure from it name.
 
 __Error__:<br/>
-Return an error if name is not in the registery.
+Return an error if name is not in the registry.
 
 ```go
 debug, err := debug.Get("woaw")
@@ -75,10 +77,10 @@ if err {
 __Prototype__: `Delete(name string) Err` <br/>
 
 __Description__:<br/>
-Delete a debug structure from the registery.
+Delete a debug structure from the registry.
 
 __Error__:<br/>
-Return an error if name is not in the registery.
+Return an error if name is not in the registry.
 
 ```go
 err := debug.Delete("woaw")
@@ -111,9 +113,9 @@ debug.Disable()
 
 ## Methods
 
-### Print
+### Log
 
-__Prototype__: `(d *Debug) Print(message string`<br/>
+__Prototype__: `(d *Debug) Log(message string`<br/>
 
 __Description__:<br/>
 Print if debug is active the message with the name of the debug and the latency between the last call if it was activated.
@@ -121,8 +123,8 @@ Print if debug is active the message with the name of the debug and the latency 
 ```go
 woaw, _ := debug.Create("woaw")
 
-woaw.Print("Hola !")
-woaw.Print("Hola 2 !")
+woaw.Log("Hola !")
+woaw.Log("Hola 2 !")
 ```
 
 ### Sprint
@@ -130,9 +132,36 @@ woaw.Print("Hola 2 !")
 __Prototype__: `(d *Debug) Sprint(message string)` <br/>
 
 __Description__:<br/>
+Return the full string that should be printed.
 
 ```go
 woaw, _ := debug.Create("woaw")
 
 str := waw.Sprint("Hola !")
+```
+
+### SetWriter
+
+__Prototype__: `(d *Debug) SetWriter(writer io.Writer, tty bool) *Debug` <br/>
+
+__Description__:<br/>
+Set the writer, if it's a terminal set to true the next parameter.
+
+```go
+woaw, _ := debug.Create("woaw")
+
+woaw.SetWriter(os.Stdout, true)
+```
+
+### SetFdWriter
+
+__Prototype__: `(d *Debug) SetFdWriter(file *os.File) *Debug` <br/>
+
+__Description__:<br/>
+This function will set the writer and determine if the `file.Fd()` is a terminal.
+
+```go
+woaw, _ := debug.Create("woaw")
+
+woaw.SetFdWriter(os.Stdout)
 ```
