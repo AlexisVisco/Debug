@@ -21,7 +21,7 @@ type Debug struct {
 // Generate a random color between 31 to 37 and 91 to 97 as ANSI code.
 func NewDebug(name string) *Debug {
 	return &Debug{
-		randomColor(),
+		attributeColor(name),
 		nil,
 		name,
 		false,

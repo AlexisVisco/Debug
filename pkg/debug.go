@@ -1,9 +1,7 @@
 package debug
 
 import (
-	"time"
 	"fmt"
-	"math/rand"
 )
 
 var registry = make(map[string]*Debug)
@@ -52,13 +50,22 @@ func Disable() {
 	enabled = false
 }
 
-// randomColor attribute a color for a debug.
-// ANSI code is between 31 and 37 or 91 and 97.
-func randomColor() string {
-	rand.Seed(time.Now().Unix())
-	base := 30
-	if rand.Int()%2 == 0 {
-		base = 90
+func hashJenkins(name string) uint32 {
+	var hash uint32 = 0
+	for e := range name {
+		hash += uint32(name[e])
+		hash += hash << 10
+		hash ^= hash >> 6
 	}
-	return fmt.Sprintf("\033[%dm", base+(rand.Intn(7-1)+1))
+	hash += hash << 3
+	hash ^= hash >> 11
+	hash += hash << 15
+	return hash
+}
+
+// attributeColor attribute a color for a debug.
+// ANSI code is between 31 and 37 or 91 and 97.
+func attributeColor(name string) string {
+	numbers := []int {31, 32, 33, 34, 35, 36, 37, 91, 92, 93, 94, 95, 96, 97}
+	return fmt.Sprintf("\033[%dm", numbers[int(hashJenkins(name)) % len(numbers)])
 }
