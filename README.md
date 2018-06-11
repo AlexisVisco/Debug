@@ -17,15 +17,15 @@ Functions:
 * [`Enable()`](#Enable)
 * [`Disable()`](#Disable)
 
-Methods (todo):
+Methods:
 * [`(d *Debug) Print(message string)`](#Print)
-* [`(d *Debug) Sprint(message string)`](#Print)
+* [`(d *Debug) Sprint(message string)`](#Sprint)
 
-## Methods
+## Functions
 
-<a name="NewDebug" />
-NewDebug(name string) *Debug
+### NewDebug
 
+__Prototype__: `NewDebug(name string) *Debug`<br/>
 
 __Description__:<br/>
 Create a debug structure without registering it. Cannot be accessible with [`Get`](#Get).
@@ -35,9 +35,9 @@ Generate a random color from 31 to 37 and 91 to 97 as ainsi code.
 debug := debug.NewDebug("woaw") 
 ```
 
-<a name="Register" />
-Register(name string) (*Debug, Err)
+### Register
 
+__Prototype__: `Register(name string) (*Debug, Err)` <br/>
 
 __Description__:<br/>
 Create a debug and registering it. Can be accessible with [`Get`](#Get).
@@ -53,9 +53,9 @@ if err {
 }
 ```
 
-<a name="Get" />
-Get(name string) (*Debug, Err)
+### Get
 
+__Prototype__: `Get(name string) (*Debug, Err)`<br/>
 
 __Description__:<br/>
 Get a debug structure from it name.
@@ -70,9 +70,9 @@ if err {
 }
 ```
 
-<a name="Delete" />
-Delete(name string) Err
+### Delete
 
+__Prototype__: `Delete(name string) Err` <br/>
 
 __Description__:<br/>
 Delete a debug structure from the registery.
@@ -87,9 +87,9 @@ if err {
 }
 ```
 
-<a name="Enable" />
-Enable()
+### Enable
 
+__Prototype__: `Enable()` <br/>
 
 __Description__:<br/>
 Enable printing with debug.
@@ -98,13 +98,41 @@ Enable printing with debug.
 debug.Enable()
 ```
 
-<a name="Disable" />
-Disable()
+### Disable
 
+__Prototype__: `Disable()`<br/>
 
 __Description__:<br/>
 Disable printing with debug.
 
 ```go
 debug.Disable()
+```
+
+## Methods
+
+### Print
+
+__Prototype__: `(d *Debug) Print(message string`<br/>
+
+__Description__:<br/>
+Print if debug is active the message with the name of the debug and the latency between the last call if it was activated.
+
+```go
+woaw, _ := debug.Create("woaw")
+
+woaw.Print("Hola !")
+woaw.Print("Hola 2 !")
+```
+
+### Sprint
+
+__Prototype__: `(d *Debug) Sprint(message string)` <br/>
+
+__Description__:<br/>
+
+```go
+woaw, _ := debug.Create("woaw")
+
+str := waw.Sprint("Hola !")
 ```
