@@ -18,7 +18,7 @@ Functions:
 * [`Disable()`](#disable)
 
 Methods:
-* [`(d *Debug) Log(message string)`](#print)
+* [`(d *Debug) Log(message string)`](#log)
 * [`(d *Debug) Sprint(message string)`](#sprint)
 * [`(d *Debug) SetWriter(writer io.Writer, tty bool) *Debug`](#setwriter)
 * [`(d *Debug) SetFdWriter(file *os.File) *Debug`](#setfdwriter)

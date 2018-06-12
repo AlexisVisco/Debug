@@ -10,9 +10,8 @@ var fivesec, _ = debug.Register("five")
 
 var five = 0
 
-
 func main() {
-	// manually set option of fivesec and onemin for portability
+	// manually set option of fivesec for portability
 	fivesec.Option.Color = true
 	fivesec.Option.Enabled = true
 	fivesec.Option.Latency = true
