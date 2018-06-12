@@ -5,7 +5,7 @@ import (
 )
 
 var registry = make(map[string]*Debug)
-var enabled = true
+var globalEnabled = true
 
 // Register create a debug and registering it. Can be accessible with Get.
 // NewDebug is used to create the structure.
@@ -32,9 +32,9 @@ func Get(name string) (*Debug, Err) {
 // Delete a debug structure from the registry.
 // Return an error if name is not in the registry.
 func Delete(name string) Err {
-	_, err := registry[name]
-	if err {
-		return NotFound
+	_, err := Get(name)
+	if err != nil {
+		return err
 	}
 	delete(registry, name)
 	return nil
@@ -42,12 +42,12 @@ func Delete(name string) Err {
 
 // Enable printing with debug.
 func Enable() {
-	enabled = true
+	globalEnabled = true
 }
 
 // Disable printing with debug.
 func Disable() {
-	enabled = false
+	globalEnabled = false
 }
 
 func hashJenkins(name string) uint32 {

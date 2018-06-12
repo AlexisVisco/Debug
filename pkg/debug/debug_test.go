@@ -92,7 +92,7 @@ func withColorAndWithoutLatency(d *Debug, w *CustomWrite, t *testing.T) {
 		t, "with color and without latency")
 }
 
-// notEnabled test a debug that is not enabled
+// notEnabled test a debug that is not globalEnabled
 func notEnabled(w *CustomWrite, d *Debug, t *testing.T) {
 	resetEnv()
 	d.Option.Reset()

@@ -12,7 +12,7 @@ type OptionDebug struct {
 	Date    bool	// Show date from debug output (non-TTY).
 	Color   bool	// Whether to use colors in the debug output.
 	Latency bool	// Whether to display latency between last call of debug.
-	Enabled bool	// If the Debug structure associated with this option is enabled.
+	Enabled bool	// If the Debug structure associated with this option is globalEnabled.
 }
 
 // NewOptionDebug create a OptionDebug with custom parameters.
@@ -28,7 +28,8 @@ func NewOptionDebug(name string) *OptionDebug {
 		!isIn(name, "DEBUG_HIDE_DATE"),
 		isIn(name, "DEBUG_COLORS"),
 		!isIn(name, "DEBUG_HIDE_LATENCY"),
-		isIn(name, "DEBUG")}
+		isIn(name, "DEBUG"),
+	}
 	return &opt
 }
 

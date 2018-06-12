@@ -26,13 +26,14 @@ func NewDebug(name string) *Debug {
 		name,
 		NewOptionDebug(name),
 		os.Stderr,
-		isatty.IsTerminal(os.Stderr.Fd()) || isatty.IsCygwinTerminal(os.Stderr.Fd())}
+		isatty.IsTerminal(os.Stderr.Fd()) || isatty.IsCygwinTerminal(os.Stderr.Fd()),
+	}
 }
 
 // Log print if debug is active the message with the name of the debug and the latency between
 // the last call if it was activated.
 func (d *Debug) Log(message string) {
-	if enabled && d.Option.Enabled {
+	if globalEnabled && d.Option.Enabled {
 		d.writer.Write([]byte(d.Sprint(message)))
 	}
 	t := time.Now()
@@ -84,7 +85,7 @@ func (d *Debug) date() interface{} {
 	return ""
 }
 
-// color return the color if color was enabled
+// color return the color if color was globalEnabled
 func (d *Debug) color() string {
 	if d.Option.Color {
 		return d.Color
