@@ -30,7 +30,7 @@ Methods:
 __Prototype__: `NewDebug(name string) *Debug`<br/>
 
 __Description__:<br/>
-Create a debug structure without registering it. Cannot be accessible with [`Get`](#Get).
+Create a debug structure without registering it. Cannot be accessible with [`Get`](#get).
 Generate a random color from 31 to 37 and 91 to 97 as ainsi code.
 
 ```go
@@ -42,8 +42,8 @@ debug := debug.NewDebug("woaw")
 __Prototype__: `Register(name string) (*Debug, Err)` <br/>
 
 __Description__:<br/>
-Create a debug and registering it. Can be accessible with [`Get`](#Get).
-[`NewDebug`](#NewDebug) is used to create the structure.
+Create a debug and registering it. Can be accessible with [`Get`](#get).
+[`NewDebug`](#newdebug) is used to create the structure.
 
 __Error__:<br/>
 Return an error if name is already in the registry.
