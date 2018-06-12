@@ -12,7 +12,7 @@ type ErrorDebug struct {
 
 // String format the output of a ErrorDebug
 func (d ErrorDebug) String() string {
-	return fmt.Sprintf("%.4d > %s ", d.Code, d.Error)
+	return fmt.Sprintf("Err %.4d: %s ", d.Code, d.Error)
 }
 
 type Err *ErrorDebug

@@ -12,7 +12,7 @@ type Debug struct {
 	Color       string
 	LastCall    *time.Time
 	Name        string
-	ShowLatency bool
+	Option		*OptionDebug
 	writer      io.Writer
 	tty         bool
 }
@@ -24,7 +24,7 @@ func NewDebug(name string) *Debug {
 		attributeColor(name),
 		nil,
 		name,
-		false,
+		NewOptionDebug(name),
 		os.Stderr,
 		isatty.IsTerminal(os.Stderr.Fd()) || isatty.IsCygwinTerminal(os.Stderr.Fd())}
 }
@@ -32,16 +32,19 @@ func NewDebug(name string) *Debug {
 // Log print if debug is active the message with the name of the debug and the latency between
 // the last call if it was activated.
 func (d *Debug) Log(message string) {
-	if enabled && d.tty {
-		d.writer.Write([]byte(fmt.Sprintf("%s%s\033[0m %s %s%s\033[0m\n", d.Color, d.Name, message, d.Color, d.since())))
-	} else {
-		d.writer.Write([]byte(fmt.Sprintf("%s\033[0m %s %s\033[0m\n", d.Name, message, d.since())))
+	if enabled && d.Option.Enabled {
+		d.writer.Write([]byte(d.Sprint(message)))
 	}
+	t := time.Now()
+	d.LastCall = &t
 }
 
 // Sprint return the full string that should be printed.
 func (d *Debug) Sprint(message string) string {
-	return fmt.Sprintf("%s%s\033[0m %s %s%s\033[0m\n", d.Color, d.Name, message, d.Color, d.since())
+	if d.tty {
+		return fmt.Sprintf("%s[%s]\033[0m %s %s%s\033[0m\n", d.color(), d.Name, message, d.color(), d.since())
+	}
+	return fmt.Sprintf("[%s] [%s] %s %s\n", d.date(), d.Name, message, d.since())
 }
 
 // SetWriter set the writer, if it's a terminal set to true the next parameter.
@@ -62,15 +65,29 @@ func (d *Debug) SetFdWriter(file *os.File) *Debug {
 // to be human readable.
 func (d *Debug) since() string {
 	var str string
-	if d.ShowLatency {
+	if d.Option.Latency {
 		if d.LastCall == nil {
 			str = "0.00µs"
 		} else {
-			str = time.Since(*d.LastCall).String()
+			str = time.Since(*d.LastCall).Round(time.Millisecond).String()
 		}
-		t := time.Now()
-		d.LastCall = &t
 		return str
+	}
+	return ""
+}
+
+// date return the date if output is not a terminal and date is not disable.
+func (d *Debug) date() interface{} {
+	if d.Option.Date && !d.tty {
+		return time.Now().String()
+	}
+	return ""
+}
+
+// color return the color if color was enabled
+func (d *Debug) color() string {
+	if d.Option.Color {
+		return d.Color
 	}
 	return ""
 }
