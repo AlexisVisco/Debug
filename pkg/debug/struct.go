@@ -44,7 +44,7 @@ func (d *Debug) Sprint(message string) string {
 	if d.tty {
 		return fmt.Sprintf("%s[%s]\033[0m %s %s%s\033[0m\n", d.color(), d.Name, message, d.color(), d.since())
 	}
-	return fmt.Sprintf("%s [%s] %s %s\n", d.date(), d.Name, message, d.since())
+	return fmt.Sprintf("%s [%s] %s\n", d.date(), d.Name, message)
 }
 
 // SetWriter set the writer, if it's a terminal set to true the next parameter.
