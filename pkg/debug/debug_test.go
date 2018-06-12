@@ -54,7 +54,7 @@ func mustMatch(write *CustomWrite, debug *Debug, rex string, messageError string
 	write.Erase()
 }
 
-// globallyDisabled test a debug that is disabled
+// globallyDisabled test a debug when debug are disabled
 func globallyDisabled(d *Debug, w *CustomWrite, t *testing.T) {
 	resetEnv()
 	os.Setenv("DEBUG", "*")
