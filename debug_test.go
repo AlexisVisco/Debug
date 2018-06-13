@@ -1,4 +1,4 @@
-package debug
+package tests
 
 import (
 	"testing"
@@ -37,6 +37,38 @@ func TestDebug_Log(t *testing.T) {
 	withColorAndWithoutLatency(d, w, t)
 	withoutColorAndWithLatency(d, w, t)
 	globallyDisabled(d, w, t)
+
+	d.SetWriter(w, false)
+	Enable()
+	notATty(d, w, t)
+	notATtyWithoutDate(d, w, t)
+}
+
+func TestGet(t *testing.T) {
+	Register("hello")
+
+	if  _, err := Get("hello"); err != nil {
+		t.Log("error on creating a debug and getting it")
+		t.Fail()
+	}
+	if _, err := Get("helloworld"); err == nil {
+		t.Log("error on getting a non registered debug")
+		t.Fail()
+	}
+}
+
+func TestDelete(t *testing.T) {
+	Register("lol")
+	err := Delete("lol")
+	if err != nil {
+		t.Log("error on deleting a debug")
+		t.Fail()
+	}
+	err = Delete("loli")
+	if err == nil {
+		t.Log("error on deleting a debug non registered")
+		t.Fail()
+	}
 }
 
 // mustMatch is an utility function to check tests with lot of parameters that determine the state
@@ -45,13 +77,37 @@ func mustMatch(write *CustomWrite, debug *Debug, rex string, messageError string
 	write.Erase()
 	re := regexp.MustCompile(rex)
 	debug.Log(msg)
-	fmt.Print(write.str)
 	if (rex == "" && rex != write.str) || !re.MatchString(write.str) {
 		t.Log("result: " + write.str)
 		t.Log(messageError)
 		t.Fail()
 	}
 	write.Erase()
+}
+
+// notATty test a debug when output is not a tty
+func notATtyWithoutDate(d *Debug, w *CustomWrite, t *testing.T) {
+	resetEnv()
+	os.Setenv("DEBUG", "*")
+	os.Setenv("DEBUG_HIDE_DATE", "*")
+	d.Option.Reset()
+	mustMatch(
+		w, d,
+		fmt.Sprintf("^\\[%s\\] %s\n$", d.Name, "i print something to file normally"),
+		"notATty: should print something without color, without latency and without date",
+		t, "i print something to file normally")
+}
+
+// notATty test a debug when output is not a tty
+func notATty(d *Debug, w *CustomWrite, t *testing.T) {
+	resetEnv()
+	os.Setenv("DEBUG", "*")
+	d.Option.Reset()
+	mustMatch(
+		w, d,
+		fmt.Sprintf("^.+\\[%s\\] %s\n$", d.Name, "i print something to file normally"),
+		"notATty: should print something without color and without latency",
+		t, "i print something to file normally")
 }
 
 // globallyDisabled test a debug when debug are disabled

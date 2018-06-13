@@ -1,4 +1,4 @@
-package debug
+package tests
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ var globalEnabled = true
 // Return an error if name is already in the registry.
 func Register(name string) (*Debug, Err) {
 	deb := NewDebug(name)
-	if _, err := Get(name); err == nil {
+	if _, err := Get(name); err != nil {
 		registry[name] = deb
 		return deb, nil
 	}
@@ -22,8 +22,8 @@ func Register(name string) (*Debug, Err) {
 // Get a debug structure from it name.
 // Return an error if name is not in the registry.
 func Get(name string) (*Debug, Err) {
-	val, err := registry[name]
-	if err {
+	val, ok := registry[name]
+	if !ok {
 		return nil, NotFound
 	}
 	return val, nil

@@ -1,4 +1,4 @@
-package debug
+package tests
 
 import (
 	"time"
@@ -45,7 +45,7 @@ func (d *Debug) Sprint(message string) string {
 	if d.tty {
 		return fmt.Sprintf("%s[%s]\033[0m %s %s%s\033[0m\n", d.color(), d.Name, message, d.color(), d.since())
 	}
-	return fmt.Sprintf("%s [%s] %s\n", d.date(), d.Name, message)
+	return fmt.Sprintf("%s[%s] %s\n", d.date(), d.Name, message)
 }
 
 // SetWriter set the writer, if it's a terminal set to true the next parameter.
@@ -80,7 +80,7 @@ func (d *Debug) since() string {
 // date return the date if output is not a terminal and date is not disable.
 func (d *Debug) date() interface{} {
 	if d.Option.Date && !d.tty {
-		return time.Now().String()
+		return time.Now().String() + " "
 	}
 	return ""
 }
