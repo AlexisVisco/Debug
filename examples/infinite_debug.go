@@ -1,7 +1,7 @@
 package main
 
 import (
-	debug "github.com/AlexisVisco/Debug"
+	debug "github.com/AlexisVisco/debug"
 	"time"
 	"strconv"
 	"sync"
