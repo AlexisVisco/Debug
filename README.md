@@ -92,8 +92,7 @@ You can combine with wildcard obviously !
 
 ## Environment Variables
 
-When running through Node.js, you can set a few environment variables that will
-change the behavior of the debug logging:
+You can set a few environment variables that will change the behavior of the debug logging:
 
 | Name      | Purpose                                         |
 |-----------|-------------------------------------------------|
