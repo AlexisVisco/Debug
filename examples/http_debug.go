@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"../debug"
+	debug "github.com/AlexisVisco/Debug"
 )
 
 var httpdeb, _ = debug.Register("http")
