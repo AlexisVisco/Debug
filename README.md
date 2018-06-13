@@ -4,8 +4,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/AlexisVisco/debug.svg)](https://circleci.com/gh/AlexisVisco/debug)
 [![Gocover](https://img.shields.io/badge/coverage-100.0%25-brightgreen.svg?style=flat)](https://gocover.io/github.com/AlexisVisco/debug)
 
-A tiny golang debugging utility modelled after go core's debugging technique.
-Works in go with any things that implement io.Writer.
+A tiny golang debugging utility based on https://github.com/visionmedia/debug principles.
 
 ## Installation
 
