@@ -44,6 +44,21 @@ func TestDebug_Log(t *testing.T) {
 	notATtyWithoutDate(d, w, t)
 }
 
+func TestRegister(t *testing.T) {
+	Register("hi")
+	_, err := Register("hi")
+	if err == nil {
+		t.Log("error on creating a debug, should ne already exist")
+		t.Fail()
+	}
+	fmt.Printf("Hi already exist and error is %s\n", *err)
+}
+
+func TestDebug_SetFdWriter(t *testing.T) {
+	d := NewDebug("Hola")
+	d.SetFdWriter(os.Stdout)
+}
+
 func TestGet(t *testing.T) {
 	Register("hello")
 
@@ -60,6 +75,7 @@ func TestGet(t *testing.T) {
 func TestDelete(t *testing.T) {
 	Register("lol")
 	err := Delete("lol")
+
 	if err != nil {
 		t.Log("error on deleting a debug")
 		t.Fail()
@@ -67,6 +83,14 @@ func TestDelete(t *testing.T) {
 	err = Delete("loli")
 	if err == nil {
 		t.Log("error on deleting a debug non registered")
+		t.Fail()
+	}
+}
+
+func TestNewOptionDebug(t *testing.T) {
+	resetEnv()
+	os.Setenv("DEBUG", "*,-test")
+	if NewOptionDebug("test").Enabled {
 		t.Fail()
 	}
 }

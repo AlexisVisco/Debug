@@ -25,10 +25,10 @@ type OptionDebug struct {
 func NewOptionDebug(name string) *OptionDebug {
 	opt := OptionDebug{
 		name,
-		!isIn(name, "DEBUG_HIDE_DATE"),
-		isIn(name, "DEBUG_COLORS"),
-		!isIn(name, "DEBUG_HIDE_LATENCY"),
-		isIn(name, "DEBUG"),
+		!isIn(name, os.Getenv("DEBUG_HIDE_DATE")),
+		isIn(name, os.Getenv("DEBUG_COLORS")),
+		!isIn(name, os.Getenv("DEBUG_HIDE_LATENCY")),
+		isIn(name, os.Getenv("DEBUG")),
 	}
 	return &opt
 }
@@ -44,17 +44,23 @@ func (opt *OptionDebug) Reset() {
 
 // isIn transform a value of a environment key into a list of values separated with a comma.
 // Then, use filepath.match to check if name is in, if -PATTERN is present, it's an exclude.
-func isIn(name, envName string) bool {
-	val := os.Getenv(envName)
+func isIn(name, val string) bool {
+	hasExclude := false
+	hasAMatch := false
 	if val == "" {
 		return false
 	}
 	lst := strings.Split(val, ",")
 	for _, v := range lst {
-		res, ok := filepath.Match(v, name)
-		if ok == nil && res && !strings.HasPrefix(v, "-") {
-			return true
+		res, _ := filepath.Match(v, name)
+		if !res  && strings.HasPrefix(v, "-"){
+			res, _ := filepath.Match(string([]rune(v)[1:len(v)]), name)
+			if res {
+				hasExclude = true
+			}
+		} else {
+			hasAMatch = true
 		}
 	}
-	return false
+	return hasAMatch && !hasExclude
 }
