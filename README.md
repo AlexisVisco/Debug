@@ -8,7 +8,7 @@ A tiny golang debugging utility based on https://github.com/visionmedia/debug pr
 
 ## Installation
 
-`go get github.com/alexisvisco/Debug`
+`go get github.com/AlexisVisco/Debug`
 
 ## Usage
 
