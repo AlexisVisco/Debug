@@ -11,6 +11,98 @@ Works in go with any things that implement io.Writer.
 
 `go get github.com/alexisvisco/Debug`
 
+## Usage
+
+debug expose some simple functions like Register, Get, Delete to manage debug.
+
+Example [http_debug.go](https://github.com/AlexisVisco/debug/blob/master/examples/http_debug.go)
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+	debug "github.com/AlexisVisco/debug"
+)
+
+var httpdeb, _ = debug.Register("http")
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+	httpdeb.Log(fmt.Sprintf("%s %s", r.Method, r.URL.String()))
+}
+
+func main() {
+	http.HandleFunc("/", handler)
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+```
+![pic](https://i.imgur.com/CWJkgrv.jpg)
+
+Example [infinite_debug.go](https://github.com/AlexisVisco/debug/blob/master/examples/http_debug.go)
+
+```go
+package main
+
+import (
+	debug "github.com/AlexisVisco/debug"
+	"time"
+	"strconv"
+	"sync"
+)
+
+var fivesec, _ = debug.Register("5 times")
+var nivesec, _ = debug.Register("9 times")
+var wait sync.WaitGroup
+
+var five = 0
+var nine = 0
+
+func main() {
+	wait.Add(1)
+	go doEvery(5 * time.Second, func(i time.Time) {
+		fivesec.Log("5 = " + strconv.Itoa(five))
+		five++
+	})
+	go doEvery(9 * time.Second, func(i time.Time) {
+		nivesec.Log("9 = " + strconv.Itoa(nine))
+		nine++
+	})
+	wait.Wait()
+}
+
+func doEvery(d time.Duration, f func(time.Time)) {
+	for x := range time.Tick(d) {
+		f(x)
+	}
+}
+```
+![pic](https://i.imgur.com/YX5lyQw.jpg)
+
+The DEBUG environment variable is then used to enable these based on space or comma-delimited names.
+
+## Wildcards
+The `*` character may be used as a wildcard. Suppose for example your library has debuggers named "connect:bodyParser", "connect:compress", "connect:session", instead of listing all three with DEBUG=connect:bodyParser,connect:compress,connect:session, you may simply do DEBUG=connect:*.
+
+## Exclusion
+
+The `-` prefix character may be used to exclude a debugger.<br>
+Example `DEBUG=*,-test` => atest OK, hello OK, test NOT OK<br>
+You can combine with wildcard obviously !
+
+## Environment Variables
+
+When running through Node.js, you can set a few environment variables that will
+change the behavior of the debug logging:
+
+| Name      | Purpose                                         |
+|-----------|-------------------------------------------------|
+| `DEBUG`   | Enables/disables specific debugging namespaces. |
+| `DEBUG_HIDE_DATE` | Hide date from debug output (non-TTY).  |
+| `DEBUG_COLORS`| Whether or not to use colors in the debug output. |
+| `DEBUG_HIDE_LATENCY` | Hide latency at the end of a tty output. |
+
 ## Documentation
 
 Functions:

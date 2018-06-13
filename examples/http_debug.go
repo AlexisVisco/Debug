@@ -15,12 +15,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-
-	// manually set option of httpdeb for portability
-	httpdeb.Option.Color = true
-	httpdeb.Option.Enabled = true
-	httpdeb.Option.Latency = true
-
 	http.HandleFunc("/", handler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
